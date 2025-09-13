@@ -1,0 +1,140 @@
+[project]
+name = "wedx-chat-completion-api"
+version = "0.20.6"
+description = "WeDX Chat Completion API"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+    { name = "WeDX Team", email = "team@wedx.cc" }
+]
+requires-python = ">=3.11"
+urls = { "Homepage" = "https://github.com/motojinc25/wedx-chat-completion", "Repository" = "https://github.com/motojinc25/wedx-chat-completion", "Issues" = "https://github.com/motojinc25/wedx-chat-completion/issues" }
+dependencies = [
+    "fastapi[standard]>=0.104.1",
+    "uvicorn[standard]>=0.24.0",
+    "python-dotenv>=1.0.0",
+    "requests>=2.32.4",
+    "pyjwt (>=2.10.1,<3.0.0)",
+    "cryptography>=45.0.5",
+    "pyyaml>=6.0.0",
+    "sqlalchemy>=2.0.0",
+    "asyncpg>=0.29.0",
+    "psycopg2-binary>=2.9.0",
+    "alembic>=1.13.0",
+    "semantic-kernel[mcp]>=1.32.2",
+    "click>=8.1.7,!=8.2.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "httpx>=0.25.0",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "httpx>=0.25.0",
+    "ruff>=0.8.0",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+exclude = [
+    "alembic/versions",
+    "tests",
+    "conftest.py",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # pyflakes
+    "I",      # isort
+    "B",      # flake8-bugbear
+    "C4",     # flake8-comprehensions
+    "UP",     # pyupgrade
+    "ARG001", # unused-function-argument
+    "C901",   # too-complex
+    "SIM",    # flake8-simplify
+    "TCH",    # flake8-type-checking
+    "TID252", # flake8-tidy-imports.banned-api
+    "Q",      # flake8-quotes
+    "PTH",    # flake8-use-pathlib
+    "TD",     # flake8-todos
+    "FIX",    # flake8-fixme
+    "ERA",    # eradicate
+    "PGH",    # pygrep-hooks
+    "RUF",    # Ruff-specific rules
+    "NPY",    # NumPy-specific rules
+    "PERF",   # Perflint
+    "FURB",   # refurb
+    "LOG",    # flake8-logging
+    "G",      # flake8-logging-format
+]
+ignore = [
+    "E501",   # line too long, handled by formatter
+    "B008",   # do not perform function calls in argument defaults
+    "C901",   # too complex
+    "RUF012", # Mutable class attributes should be annotated with `typing.ClassVar`
+    "TD002",  # Missing author in TODO
+    "TD003",  # Missing issue link on the line following this TODO
+    "FIX002", # Line contains TODO, consider resolving the issue
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"test_*.py" = ["ARG001", "S101"]
+"tests/*.py" = ["ARG001", "S101"]
+"**/migrations/**" = ["E501", "RUF012"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+force-sort-within-sections = true
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = [
+    "--strict-config",
+    "--disable-warnings",
+    "-ra",
+]
+asyncio_mode = "auto"
+filterwarnings = [
+    "error",
+    "ignore::UserWarning",
+    "ignore::DeprecationWarning",
+]
+
+[tool.coverage.run]
+omit = [
+    "alembic/*",
+    "tests/*",
+    "dist/*",
+    "*/test_*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+]
